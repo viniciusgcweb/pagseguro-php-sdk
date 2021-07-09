@@ -1,12 +1,17 @@
 <?php
-
-include_once 'source/Payment.php';
-
 class PaymentTest extends \PHPUnit\Framework\TestCase
 {
+    public function __construct($name = null, array $data = array(), $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+
+        \Sounoob\pagseguro\config\Config::setProduction();
+    }
+
+
     public function testPhone()
     {
-        $payment = new Payment();
+        $payment = new \Sounoob\pagseguro\Payment();
 
         $payment->setSenderPhone(11, 9890151514);
 
@@ -18,9 +23,9 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
 
     public function testCPF()
     {
-        $payment = new Payment();
+        $payment = new \Sounoob\pagseguro\Payment();
 
-        $payment->setSenderCPF('012.345.678-906');
+        $payment->setSenderCPF('012.345.678-90');
 
         $data = $payment->build();
 
@@ -29,7 +34,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
 
     public function testItem()
     {
-        $payment = new Payment();
+        $payment = new \Sounoob\pagseguro\Payment();
         $itens = array();
         $itens[] = array(
             'id' => '0001',
@@ -50,7 +55,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             'amount' => '330.00',
             'shippingCost' => '0.99',
         );
-        $payment->additens($itens);
+        $payment->addItens($itens);
 
         $item4 = array();
         $item4['id'] = 0004;

@@ -1,7 +1,9 @@
 <?php
-include '../source/Payment.php';
+include '../vendor/autoload.php';
 
-$payment = new Payment();
+//\Sounoob\pagseguro\config\Config::setAccountCredentials('seu@email.com.br', 'BD65179DCD806314A77B774DF6148CA9');
+
+$payment = new \Sounoob\pagseguro\Payment();
 $itens = array();
 $itens[] = array(
     'id' => '0001',
@@ -22,7 +24,7 @@ $itens[] = array(
     'amount' => '330.00',
     'shippingCost' => '0.99',
 );
-$payment->additens($itens);
+$payment->addItens($itens);
 
 $item4 = array();
 $item4['id'] = 0004;
@@ -40,12 +42,13 @@ $payment->addItem(
     $item4['weight'],
     $item4['shippingCost']
 );
+//$payment->skipAddress();
 
 $payment->setShippingAddressState('SP');
 
 $payment->setShippingTypeSedex();
+//$payment->setShippingTypeOther();
+//$payment->setShippingTypePAC();
 
-$data = $payment->redirectCode();
-print_r($data);exit;
-
-echo $data;
+$payment->send();
+print_r($payment);exit;
